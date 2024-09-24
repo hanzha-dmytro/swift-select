@@ -1,0 +1,151 @@
+@charset "UTF-8";
+.swift-select {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  user-select: none;
+  font-size: 14px;
+  line-height: 20px;
+  font-family: Arial, sans-serif;
+}
+.swift-select.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.swift-select.opened .select-text {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.swift-select .select-values {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.swift-select .select-values .select-tag {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  background: #e5e7ed;
+  border-radius: 4px;
+  margin: 2px;
+}
+.swift-select .select-values .select-tag-text {
+  display: inline-block;
+  padding: 6px 10px;
+  color: #333;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.swift-select .select-values .select-tag-remove {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 100%;
+  padding: 5px 10px;
+  margin-left: 5px;
+  background: #ff6b6b;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+  transition: background-color 0.3s ease;
+}
+.swift-select .select-values .select-tag-remove:hover {
+  background: red;
+}
+.swift-select .select-values .select-tag-remove::after {
+  content: "✕";
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+}
+.swift-select .select-values .select-text {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 8px 30px 8px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.swift-select .select-values .select-text:after {
+  content: "";
+  display: block;
+  position: absolute;
+  right: 15px;
+  top: calc(50% - 3px);
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+  border-width: 5px 4.5px 0 4.5px;
+  transition: 0.2s;
+}
+.swift-select .select-dropdown {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  z-index: 1000;
+  overflow: hidden;
+}
+.swift-select .select-dropdown .select-search {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+}
+.swift-select .select-dropdown .select-list {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+}
+.swift-select .select-dropdown .select-list-item {
+  display: block;
+  padding: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.swift-select .select-dropdown .select-list-item.selected {
+  background: #e5e7ed;
+  color: #333;
+}
+.swift-select .select-dropdown .select-list-item.disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+.swift-select .select-dropdown .select-list-item.not-found {
+  text-align: center;
+  pointer-events: none;
+}
+.swift-select .select-dropdown .select-list-item:hover, .swift-select .select-dropdown .select-list-item:focus {
+  background-color: #f2f4f8;
+  outline: none;
+}
