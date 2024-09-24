@@ -1,0 +1,127 @@
+// Colors
+$color-border: #ccc;
+$color-background: #fff;
+$color-text: #333;
+
+// State colors
+$color-highlight: #e5e7ed;
+$color-hover: #f2f4f8;
+$color-disabled: #999;
+$color-arrow: #333;
+
+// Spacing
+$padding-small: 8px;
+$padding-medium: 10px;
+$padding-large: 30px;
+
+// Border radius
+$border-radius: 4px;
+
+// Font settings
+$font-size-default: 14px;
+$font-family-default: Arial, sans-serif;
+
+.swift-select {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  user-select: none;
+  font-size: $font-size-default;
+  font-family: $font-family-default;
+
+  .select-text {
+    background-color: $color-background;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    cursor: pointer;
+    overflow: hidden;
+    padding: $padding-medium $padding-large $padding-medium $padding-medium;
+    position: relative;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap;
+
+    &:after {
+      border-color: $color-arrow transparent transparent transparent;
+      border-style: solid;
+      border-width: 5px 4.5px 0 4.5px;
+      content: "";
+      display: block;
+      position: absolute;
+      right: 15px;
+      top: calc(50% - 3px);
+      transition: 0.2s;
+    }
+  }
+
+  .select-dropdown {
+    background-color: $color-background;
+    border: 1px solid $color-border;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+    border-top: none;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 1000;
+
+    .select-search {
+      background-color: $color-background;
+      border: none;
+      padding: $padding-small;
+      width: 100%;
+    }
+
+    .select-list {
+      list-style: none;
+      margin: 0;
+      overflow-y: auto;
+      padding: 0;
+
+      li {
+        cursor: pointer;
+        overflow: hidden;
+        padding: $padding-medium;
+        text-overflow: ellipsis;
+        vertical-align: top;
+        white-space: nowrap;
+
+        &.selected {
+          background: $color-highlight;
+          color: $color-text;
+        }
+
+        &.disabled {
+          color: $color-disabled;
+          cursor: not-allowed;
+        }
+
+        &.not-found {
+          text-align: center;
+          pointer-events: none;
+        }
+
+        &:hover,
+        &:focus {
+          background-color: $color-hover;
+          outline: none;
+        }
+      }
+    }
+  }
+
+  &.opened .select-text {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
