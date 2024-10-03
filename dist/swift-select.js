@@ -300,7 +300,6 @@ function _handleListClick(e) {
   _assertClassBrand(_SwiftSelect_brand, this, _selectOption).call(this, selectedOption);
 }
 function _handleOutsideClick(e) {
-  e.preventDefault();
   if (!_classPrivateFieldGet(_wrapper, this).contains(e.target)) {
     _assertClassBrand(_SwiftSelect_brand, this, _closeDropdown).call(this);
   }
