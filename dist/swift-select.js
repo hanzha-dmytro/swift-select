@@ -21,8 +21,8 @@ function _classPrivateFieldSet(s, a, r) { return s.set(_assertClassBrand(s, a), 
 function _assertClassBrand(e, t, n) { if ("function" == typeof e ? e === t : e.has(t)) return arguments.length < 3 ? t : n; throw new TypeError("Private element is not present on this object"); }
 var _wrapper = new WeakMap();
 var _valuesWrapper = new WeakMap();
-var _selected = new WeakMap();
 var _options = new WeakMap();
+var _selected = new WeakMap();
 var _elementToValueMap = new WeakMap();
 var _valueToElementMap = new WeakMap();
 var _settings = new WeakMap();
@@ -37,8 +37,8 @@ var SwiftSelect = function () {
     _classPrivateMethodInitSpec(this, _SwiftSelect_brand);
     _classPrivateFieldInitSpec(this, _wrapper, null);
     _classPrivateFieldInitSpec(this, _valuesWrapper, null);
-    _classPrivateFieldInitSpec(this, _selected, []);
     _classPrivateFieldInitSpec(this, _options, []);
+    _classPrivateFieldInitSpec(this, _selected, []);
     _classPrivateFieldInitSpec(this, _elementToValueMap, new WeakMap());
     _classPrivateFieldInitSpec(this, _valueToElementMap, new Map());
     _classPrivateFieldInitSpec(this, _settings, {
@@ -81,7 +81,7 @@ var SwiftSelect = function () {
       return !!_classPrivateFieldGet(_settings, this).multiple ? _classPrivateFieldGet(_selected, this) : (_classPrivateFieldGet2 = _classPrivateFieldGet(_selected, this)[0]) !== null && _classPrivateFieldGet2 !== void 0 ? _classPrivateFieldGet2 : null;
     },
     set: function set(optionValue) {
-      if (!optionValue) return;
+      if (!optionValue && _assertClassBrand(_SwiftSelect_brand, this, _isOptionAvailable).call(this, optionValue)) return;
       _assertClassBrand(_SwiftSelect_brand, this, _selectOption).call(this, optionValue, true);
     }
   }, {
@@ -108,6 +108,14 @@ var SwiftSelect = function () {
     }
   }]);
 }();
+function _isOptionAvailable(optionValue) {
+  return this.options.some(function (option) {
+    return option.value === optionValue;
+  });
+}
+function _isValidOption(optionValue) {
+  return optionValue === null || _assertClassBrand(_SwiftSelect_brand, this, _isOptionAvailable).call(this, optionValue);
+}
 function _buildSelect() {
   _classPrivateFieldGet(_wrapper, this).classList.add('swift-select');
   _classPrivateFieldGet(_wrapper, this).setAttribute('role', 'listbox');
@@ -171,7 +179,7 @@ function _attachEvents() {
 }
 function _selectDefaultOption() {
   var _classPrivateFieldGet6, _classPrivateFieldGet7;
-  if (!((_classPrivateFieldGet6 = _classPrivateFieldGet(_options, this)) !== null && _classPrivateFieldGet6 !== void 0 && _classPrivateFieldGet6.length) || !_classPrivateFieldGet(_settings, this).withDefaultOption) return;
+  if (!((_classPrivateFieldGet6 = _classPrivateFieldGet(_options, this)) !== null && _classPrivateFieldGet6 !== void 0 && _classPrivateFieldGet6.length) || !_classPrivateFieldGet(_settings, this).withDefaultOption && _assertClassBrand(_SwiftSelect_brand, this, _isValidOption).call(this, this.value)) return;
   var selectedValue = (_classPrivateFieldGet7 = _classPrivateFieldGet(_options, this)[0]) === null || _classPrivateFieldGet7 === void 0 ? void 0 : _classPrivateFieldGet7.value;
   _assertClassBrand(_SwiftSelect_brand, this, _selectOption).call(this, selectedValue, true);
 }
