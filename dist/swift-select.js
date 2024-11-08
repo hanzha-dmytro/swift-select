@@ -92,6 +92,7 @@ var SwiftSelect = function () {
     set: function set(options) {
       _classPrivateFieldSet(_options, this, options);
       _assertClassBrand(_SwiftSelect_brand, this, _closeDropdown).call(this);
+      _assertClassBrand(_SwiftSelect_brand, this, _validateSelectedOptions).call(this);
       _assertClassBrand(_SwiftSelect_brand, this, _selectDefaultOption).call(this);
       _assertClassBrand(_SwiftSelect_brand, this, _toggleWrapperClasses).call(this);
     }
@@ -103,6 +104,7 @@ var SwiftSelect = function () {
     set: function set(settings) {
       _classPrivateFieldSet(_settings, this, _objectSpread(_objectSpread({}, _classPrivateFieldGet(_settings, this)), settings));
       _assertClassBrand(_SwiftSelect_brand, this, _closeDropdown).call(this);
+      _assertClassBrand(_SwiftSelect_brand, this, _validateSelectedOptions).call(this);
       _assertClassBrand(_SwiftSelect_brand, this, _selectDefaultOption).call(this);
       _assertClassBrand(_SwiftSelect_brand, this, _toggleWrapperClasses).call(this);
     }
@@ -112,9 +114,6 @@ function _isOptionAvailable(optionValue) {
   return this.options.some(function (option) {
     return option.value === optionValue;
   });
-}
-function _isValidOption(optionValue) {
-  return optionValue === null || _assertClassBrand(_SwiftSelect_brand, this, _isOptionAvailable).call(this, optionValue);
 }
 function _buildSelect() {
   _classPrivateFieldGet(_wrapper, this).classList.add('swift-select');
@@ -178,10 +177,17 @@ function _attachEvents() {
   document.addEventListener('click', _assertClassBrand(_SwiftSelect_brand, this, _handleOutsideClick).bind(this));
 }
 function _selectDefaultOption() {
-  var _classPrivateFieldGet6, _classPrivateFieldGet7;
-  if (!((_classPrivateFieldGet6 = _classPrivateFieldGet(_options, this)) !== null && _classPrivateFieldGet6 !== void 0 && _classPrivateFieldGet6.length) || !_classPrivateFieldGet(_settings, this).withDefaultOption && _assertClassBrand(_SwiftSelect_brand, this, _isValidOption).call(this, this.value)) return;
-  var selectedValue = (_classPrivateFieldGet7 = _classPrivateFieldGet(_options, this)[0]) === null || _classPrivateFieldGet7 === void 0 ? void 0 : _classPrivateFieldGet7.value;
+  var _classPrivateFieldGet6, _classPrivateFieldGet7, _classPrivateFieldGet8;
+  if (!((_classPrivateFieldGet6 = _classPrivateFieldGet(_options, this)) !== null && _classPrivateFieldGet6 !== void 0 && _classPrivateFieldGet6.length) || !_classPrivateFieldGet(_settings, this).withDefaultOption) return;
+  var selectedValue = (_classPrivateFieldGet7 = (_classPrivateFieldGet8 = _classPrivateFieldGet(_options, this)[0]) === null || _classPrivateFieldGet8 === void 0 ? void 0 : _classPrivateFieldGet8.value) !== null && _classPrivateFieldGet7 !== void 0 ? _classPrivateFieldGet7 : null;
   _assertClassBrand(_SwiftSelect_brand, this, _selectOption).call(this, selectedValue, true);
+}
+function _validateSelectedOptions() {
+  var _this2 = this;
+  _classPrivateFieldSet(_selected, this, _classPrivateFieldGet(_selected, this).filter(function (option) {
+    return _assertClassBrand(_SwiftSelect_brand, _this2, _isOptionAvailable).call(_this2, option);
+  }));
+  _assertClassBrand(_SwiftSelect_brand, this, _updateSelectedOption).call(this);
 }
 function _selectOption(optionValue) {
   var forceUpdate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -199,9 +205,9 @@ function _selectOption(optionValue) {
   _classPrivateFieldGet(_events, this).onSelectChange.call(this, this.value);
 }
 function _updateSelectedOption() {
-  var _this2 = this;
+  var _this3 = this;
   var selectedOptions = _classPrivateFieldGet(_options, this).filter(function (option) {
-    return _classPrivateFieldGet(_selected, _this2).includes(option.value);
+    return _classPrivateFieldGet(_selected, _this3).includes(option.value);
   });
   _classPrivateFieldGet(_valuesWrapper, this).innerHTML = '';
   if (!selectedOptions.length) {
@@ -220,7 +226,7 @@ function _buildSingleOptionElement() {
   _classPrivateFieldGet(_valuesWrapper, this).appendChild(selectText);
 }
 function _buildMultipleOptionElement() {
-  var _this3 = this;
+  var _this4 = this;
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   options.forEach(function (option) {
     var selectTag = document.createElement('div');
@@ -235,9 +241,9 @@ function _buildMultipleOptionElement() {
     selectTagButton.classList.add('select-tag-remove');
     selectTag.appendChild(selectTagButton);
     selectTagButton.addEventListener('click', function (event) {
-      return _assertClassBrand(_SwiftSelect_brand, _this3, _handleRemoveButtonClick).call(_this3, event, option.value);
+      return _assertClassBrand(_SwiftSelect_brand, _this4, _handleRemoveButtonClick).call(_this4, event, option.value);
     });
-    _classPrivateFieldGet(_valuesWrapper, _this3).appendChild(selectTag);
+    _classPrivateFieldGet(_valuesWrapper, _this4).appendChild(selectTag);
   });
 }
 function _openDropdown() {
@@ -249,10 +255,10 @@ function _openDropdown() {
   _classPrivateFieldGet(_events, this).onSelectOpened.call(this);
 }
 function _closeDropdown() {
-  var _classPrivateFieldGet8;
+  var _classPrivateFieldGet9;
   _classPrivateFieldGet(_wrapper, this).classList.toggle('opened', false);
   _classPrivateFieldGet(_wrapper, this).setAttribute('aria-expanded', 'false');
-  (_classPrivateFieldGet8 = _classPrivateFieldGet(_wrapper, this).querySelector('.select-dropdown')) === null || _classPrivateFieldGet8 === void 0 || _classPrivateFieldGet8.remove();
+  (_classPrivateFieldGet9 = _classPrivateFieldGet(_wrapper, this).querySelector('.select-dropdown')) === null || _classPrivateFieldGet9 === void 0 || _classPrivateFieldGet9.remove();
   _classPrivateFieldGet(_events, this).onSelectClosed.call(this);
 }
 function _calculateDropdownHeight() {
@@ -278,7 +284,7 @@ function _handleDropdownClick(e) {
   !opened ? _assertClassBrand(_SwiftSelect_brand, this, _openDropdown).call(this) : _assertClassBrand(_SwiftSelect_brand, this, _closeDropdown).call(this);
 }
 function _handleSelectSearch(e) {
-  var _this4 = this;
+  var _this5 = this;
   e.preventDefault();
   e.stopPropagation();
   var list = _classPrivateFieldGet(_wrapper, this).querySelector('.select-list');
@@ -288,7 +294,7 @@ function _handleSelectSearch(e) {
   if (notFoundMessage) notFoundMessage.remove();
   _toConsumableArray(list.children).forEach(function (li) {
     var optionLabel = li.textContent.toLowerCase();
-    var defaultOption = _classPrivateFieldGet(_valueToElementMap, _this4).get(_classPrivateFieldGet(_settings, _this4).searchDefaultOption);
+    var defaultOption = _classPrivateFieldGet(_valueToElementMap, _this5).get(_classPrivateFieldGet(_settings, _this5).searchDefaultOption);
     var isMatch = optionLabel.includes(searchTerm) || li === defaultOption;
     li.style.display = isMatch ? 'block' : 'none';
     if (isMatch) hasVisibleOptions = true;
